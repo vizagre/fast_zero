@@ -7,9 +7,15 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "3.12.*"
+<<<<<<< HEAD
 fastapi = "^0.111.0"
 pydantic = {extras = ["email"], version = "^2.7.4"}
 sqlalchemy = "^2.0.31"
+=======
+pydantic = {extras = ["email"], version = "^2.7.4"}
+sqlalchemy = "^2.0.31"
+fastapi = "^0.111.0"
+>>>>>>> a0d1a24e6c25babdf5eacd160bca187c5783a391
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.2.2"
@@ -45,3 +51,7 @@ post_test = 'coverage html'
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+<<<<<<< HEAD
+=======
+
+>>>>>>> a0d1a24e6c25babdf5eacd160bca187c5783a391
