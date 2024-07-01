@@ -1,0 +1,11 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "database": "${workspaceFolder:fast_zero}/database.db",
+            "name": "fast_zero"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
+}
