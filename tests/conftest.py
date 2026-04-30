@@ -27,10 +27,11 @@ def session():
 
 
 @contextmanager
-def _mock_db_time(model, time=datetime(2026, 4, 29)):
+def _mock_db_time(*, model, time=datetime(2026, 4, 29)):
 
     def fake_time_hook(mapper, connection, target):
-        print(target)
+        if hasattr(target, 'created_at'):
+            target.created_at = time
 
     event.listen(model, 'before_insert', fake_time_hook)
 
