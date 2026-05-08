@@ -7,9 +7,9 @@ from sqlalchemy import create_engine, event
 from sqlalchemy.orm import Session
 from sqlalchemy.pool import StaticPool
 
-from fast_zero.app import app
-from fast_zero.database import get_session
+from fast_zero.app import app, get_session
 from fast_zero.models import User, table_registry
+from fast_zero.security import get_password_hash
 
 
 @pytest.fixture
@@ -65,9 +65,32 @@ def mock_db_time():
 
 @pytest.fixture
 def user(session: Session):
-    user = User(username='Teste', email='teste@test.com', password='testtest')
+
+    # Monkey patching é uma técnica em que modificamos ou estendemos
+    # o código em tempo de execução.
+    # Neste caso, estamos criando um usuário diretamente no banco de dados para
+    # ser utilizado nos testes, sem passar pela rota de criação de usuário.
+
+    password = 'testtest'
+    user = User(
+        username='Teste',
+        email='teste@test.com',
+        password=get_password_hash(password),
+    )
+
     session.add(user)
     session.commit()
     session.refresh(user)
 
+    user.clean_password = password
+
     return user
+
+
+@pytest.fixture
+def token(client, user):
+    response = client.post(
+        '/token',
+        data={'username': user.email, 'password': user.clean_password},
+    )
+    return response.json()['access_token']
